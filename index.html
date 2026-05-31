@@ -1,588 +1,338 @@
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 200px;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>That's it. That's the statement. — Kile Jones</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #f5f0e8; color: #111; font-family: 'Libre Baskerville', serif; line-height: 1.7; overflow-x: hidden; }
 
-  /* ── HEADER ── */
   header {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: clamp(2.5rem, 6vw, 5rem);
-    border-bottom: 1px solid var(--border);
-    position: relative;
+    min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto;
+    padding: clamp(2.5rem, 6vw, 5rem); border-bottom: 2px solid #111; background: #fff;
   }
+  .header-top { display: flex; justify-content: space-between; font-family: 'Courier Prime', monospace; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: #888; }
+  .header-top a { color: #c8821a; text-decoration: none; }
+  .header-center { display: flex; flex-direction: column; justify-content: center; padding: 4rem 0; }
+  .series-label { font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: #c8821a; margin-bottom: 2rem; opacity: 0; animation: rise 0.7s ease forwards 0.2s; }
+  h1 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(4rem, 12vw, 10rem); line-height: 0.88; letter-spacing: -0.03em; color: #111; opacity: 0; animation: rise 0.8s ease forwards 0.4s; }
+  h1 em { font-style: italic; color: #c8821a; }
+  .header-desc { margin-top: 3rem; max-width: 52ch; font-size: clamp(0.95rem, 1.6vw, 1.1rem); color: #666; font-style: italic; opacity: 0; animation: rise 0.8s ease forwards 0.7s; }
+  .header-bottom { display: flex; align-items: center; gap: 2rem; font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #aaa; opacity: 0; animation: rise 0.8s ease forwards 1s; }
+  .header-bottom::before { content: ''; display: block; width: 3rem; height: 2px; background: #c8821a; flex-shrink: 0; }
 
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--grey);
-  }
+  main { padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem); }
+  .entry { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 5rem); align-items: start; padding: clamp(3rem, 6vw, 6rem) 0; border-bottom: 1px solid #ddd; opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .entry.visible { opacity: 1; transform: none; }
+  .entry:nth-child(even) { direction: rtl; }
+  .entry:nth-child(even) > * { direction: ltr; }
+  .entry-image-wrap { position: relative; }
+  .entry-number { position: absolute; top: -1.5rem; left: 0; font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.3em; color: #c8821a; text-transform: uppercase; }
+  .entry-image-wrap img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border: 1px solid #ddd; cursor: pointer; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease; }
+  .entry-image-wrap img:hover { transform: scale(1.015); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+  .entry-image-wrap.wide img { aspect-ratio: 16/9; }
+  .entry-body { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding-top: 1.5rem; }
+  .entry-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.2; color: #111; }
+  .entry-rule { width: 2.5rem; height: 2px; background: #c8821a; }
+  .entry-text { font-size: clamp(0.88rem, 1.4vw, 1rem); color: #555; line-height: 1.9; font-style: italic; }
+  .read-more { display: inline-block; font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #c8821a; cursor: pointer; border-bottom: 1px solid #c8821a; padding-bottom: 2px; background: none; border-top: none; border-left: none; border-right: none; transition: color 0.2s; }
+  .read-more:hover { color: #111; border-color: #111; }
 
-  .header-top a {
-    color: var(--gold-dim);
-    text-decoration: none;
-    transition: color 0.2s;
+  /* ESSAY OVERLAY */
+  .essay-overlay {
+    position: fixed; inset: 0; background: #fff; z-index: 20000;
+    opacity: 0; pointer-events: none; overflow-y: auto;
+    transition: opacity 0.3s ease;
   }
-  .header-top a:hover { color: var(--gold); }
+  .essay-overlay.on { opacity: 1; pointer-events: all; }
+  .essay-inner { max-width: 680px; margin: 0 auto; padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem); }
+  .essay-back { font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #c8821a; background: none; border: none; cursor: pointer; margin-bottom: 3rem; display: flex; align-items: center; gap: 0.5rem; }
+  .essay-back:hover { color: #111; }
+  .essay-img { width: 100%; max-width: 400px; margin-bottom: 2.5rem; border: 1px solid #ddd; }
+  .essay-num { font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: #c8821a; margin-bottom: 1rem; }
+  .essay-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.1; color: #111; margin-bottom: 2rem; }
+  .essay-rule { width: 3rem; height: 2px; background: #c8821a; margin-bottom: 2.5rem; }
+  .essay-body { font-size: clamp(1rem, 1.6vw, 1.1rem); line-height: 1.95; color: #333; }
+  .essay-body p { margin-bottom: 1.4em; }
+  .essay-body p:last-child { margin-bottom: 0; }
 
-  .header-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 4rem 0;
-  }
-
-  .series-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: rise 0.7s ease forwards 0.2s;
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: clamp(4rem, 12vw, 10rem);
-    line-height: 0.88;
-    letter-spacing: -0.03em;
-    color: var(--white);
-    opacity: 0;
-    animation: rise 0.8s ease forwards 0.4s;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .header-desc {
-    margin-top: 3rem;
-    max-width: 52ch;
-    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-    color: var(--grey);
-    font-style: italic;
-    line-height: 1.8;
-    opacity: 0;
-    animation: rise 0.8s ease forwards 0.7s;
-  }
-
-  .header-bottom {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--mid);
-    opacity: 0;
-    animation: rise 0.8s ease forwards 1s;
-  }
-
-  .header-bottom::before {
-    content: '';
-    display: block;
-    width: 3rem;
-    height: 1px;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-
-  /* ── ENTRIES ── */
-  main {
-    padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem);
-  }
-
-  .entry {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 4vw, 5rem);
-    align-items: start;
-    padding: clamp(3rem, 6vw, 6rem) 0;
-    border-bottom: 1px solid var(--border);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .entry.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* Alternate layout: odd entries image-left, even entries image-right */
-  .entry:nth-child(even) {
-    direction: rtl;
-  }
-  .entry:nth-child(even) > * {
-    direction: ltr;
-  }
-
-  .entry-image-wrap {
-    position: relative;
-  }
-
-  .entry-number {
-    position: absolute;
-    top: -1.5rem;
-    left: 0;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-
-  .entry-image-wrap img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    display: block;
-    filter: contrast(1.05) brightness(0.97);
-    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
-    cursor: pointer;
-  }
-
-  .entry-image-wrap:hover img {
-    filter: contrast(1.1) brightness(1.04);
-    transform: scale(1.015);
-  }
-
-  .entry-image-wrap.wide img {
-    aspect-ratio: 16/9;
-  }
-
-  .entry-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
-    padding-top: 1.5rem;
-  }
-
-  .entry-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    line-height: 1.15;
-    color: var(--white);
-  }
-
-  .entry-rule {
-    width: 2.5rem;
-    height: 1px;
-    background: var(--gold);
-  }
-
-  .entry-text {
-    font-size: clamp(0.88rem, 1.4vw, 1rem);
-    color: #888;
-    line-height: 1.9;
-    font-style: italic;
-  }
-
-  .entry-tag {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-  }
-
-  /* ── LIGHTBOX ── */
-  .lb {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.96);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-    padding: 2rem;
-  }
+  /* LIGHTBOX */
+  .lb { position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 2rem; }
   .lb.on { opacity: 1; pointer-events: all; }
-  .lb img {
-    max-width: min(92vw, 680px);
-    max-height: 90vh;
-    object-fit: contain;
-  }
-  .lb-close {
-    position: absolute;
-    top: 1.5rem; right: 2rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #555;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  .lb-close:hover { color: var(--white); }
-
-  .lb-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: #333;
-    cursor: pointer;
-    padding: 1rem;
-    transition: color 0.2s;
-  }
-  .lb-nav:hover { color: var(--white); }
+  .lb img { max-width: min(92vw, 680px); max-height: 90vh; object-fit: contain; }
+  .lb-close { position: absolute; top: 1.5rem; right: 2rem; font-family: 'Courier Prime', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #888; background: none; border: none; cursor: pointer; transition: color 0.2s; }
+  .lb-close:hover { color: #fff; }
+  .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-family: 'Playfair Display', serif; font-size: 2rem; color: #555; cursor: pointer; padding: 1rem; transition: color 0.2s; }
+  .lb-nav:hover { color: #fff; }
   .lb-nav.prev { left: 1rem; }
   .lb-nav.next { right: 1rem; }
 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 3rem clamp(1.5rem, 5vw, 5rem);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--mid);
-  }
+  footer { border-top: 2px solid #111; padding: 3rem clamp(1.5rem, 5vw, 5rem); background: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #aaa; }
+  footer span { color: #c8821a; }
 
-  footer span { color: var(--gold-dim); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: none; }
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 700px) {
-    .entry { grid-template-columns: 1fr; }
-    .entry:nth-child(even) { direction: ltr; }
-    .lb-nav { display: none; }
-    h1 { font-size: clamp(3rem, 15vw, 5rem); }
-  }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 700px) { .entry { grid-template-columns: 1fr; } .entry:nth-child(even) { direction: ltr; } .lb-nav { display: none; } }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-top">
-    <span>Kile Jones &nbsp;/&nbsp; The Inverted World</span>
+    <span>Kile Jones / The Inverted World</span>
     <a href="https://kilejones.substack.com" target="_blank">kilejones.substack.com ↗</a>
   </div>
-
   <div class="header-center">
-    <p class="series-label">The Series — Complete &nbsp;·&nbsp; 25 Entries &nbsp;·&nbsp; 2024–2025</p>
+    <p class="series-label">The Series · 24 Entries · 2024–2025</p>
     <h1>That's it.<br><em>That's</em><br>the state-<br>ment.</h1>
-    <p class="header-desc">
-      A running series of single-sentence graphics. The premise is simple: saying that Israel should exist—and has the right to keep existing—has become a statement that requires making. These are the statements.
-    </p>
+    <p class="header-desc">A running series of single-sentence graphics. Saying that Israel should exist—and has the right to keep existing—has become a statement that requires making. These are the statements.</p>
   </div>
-
-  <div class="header-bottom">
-    <span>10 entries &nbsp;·&nbsp; Scroll to read</span>
-  </div>
+  <div class="header-bottom"><span>Scroll to read</span></div>
 </header>
 
-<main id="entries">
+<main id="gallery">
 
-  <article class="entry" data-i="0">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 01</span>
-      <img src="5E98C50B-3469-455B-9CD7-EF2E5BED8007.png" alt="That's it. That's the statement. Series." onclick="openLb(0)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">That's it. That's the statement. Series.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The series launched with just a name and a period. No argument, no defense—just the fact that saying "Israel should exist" had become a statement requiring courage to make. That was the whole point.</p>
-    </div>
-  </article>
+<article class="entry" data-i="0">
+  <div class="entry-image-wrap"><span class="entry-number">No. 01</span><img src="5E98C50B-3469-455B-9CD7-EF2E5BED8007.png" alt="Title card" onclick="openLb(0)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">That's it. That's the statement. Series.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The series launched with just a name and a period. No argument, no defense—just the fact that saying "Israel should exist" had become a statement requiring courage to make.</p>
+    <button class="read-more" onclick="openEssay(0)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="B0F31209-B082-4A8E-9594-A02900D2147D.png" alt="Israel should continue to exist." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Israel should continue to exist.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The second beat in the same argument: it's not just that Israel should have been created, it's that it should keep existing now. The fact that "continue" needed to be added tells you everything about where the discourse had gone.</p>
-    </div>
-  </article>
+<article class="entry" data-i="1">
+  <div class="entry-image-wrap"><span class="entry-number">No. 02</span><img src="B0F31209-B082-4A8E-9594-A02900D2147D.png" alt="Israel should continue to exist." onclick="openLb(1)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Israel should continue to exist.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The second beat in the same argument: it's not just that Israel should have been created, it's that it should keep existing now.</p>
+    <button class="read-more" onclick="openEssay(1)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="A3D99C81-172F-4381-8968-56E5A9933D86.png" alt="Israel has the right to defend its citizens." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Israel has the right to defend its citizens.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The statement that turned a military democracy into a war crime factory just by saying it out loud. Every country on earth takes this as given—except, apparently, when Jews are the ones doing the defending.</p>
-    </div>
-  </article>
+<article class="entry" data-i="2">
+  <div class="entry-image-wrap"><span class="entry-number">No. 03</span><img src="A3D99C81-172F-4381-8968-56E5A9933D86.png" alt="Israel has the right to defend its citizens." onclick="openLb(2)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Israel has the right to defend its citizens.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The statement that turned a military democracy into a war crime factory just by saying it out loud.</p>
+    <button class="read-more" onclick="openEssay(2)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="75A478A3-80F2-4241-BF99-AF2C4A17A907.png" alt="Israel Sucks at Genocide." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Israel Sucks at Genocide.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The math problem antizionism can't solve. Genocides produce dead populations—Gaza's grew. The charge collapses under its own definition, and this graphic said so in five words.</p>
-    </div>
-  </article>
+<article class="entry" data-i="3">
+  <div class="entry-image-wrap"><span class="entry-number">No. 04</span><img src="75A478A3-80F2-4241-BF99-AF2C4A17A907.png" alt="Israel Sucks at Genocide." onclick="openLb(3)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Israel Sucks at Genocide.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The math problem antizionism can't solve. Genocides produce dead populations—Gaza's grew.</p>
+    <button class="read-more" onclick="openEssay(3)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_4680.jpeg" alt="Israel will survive this and persist." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Israel will survive this and persist.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">A statement of historical fact dressed as provocation. Jews have survived empires, inquisitions, pogroms, and industrialized murder—the idea that a campus movement ends that record isn't a political position, it's a wish.</p>
-    </div>
-  </article>
+<article class="entry" data-i="4">
+  <div class="entry-image-wrap"><span class="entry-number">No. 05</span><img src="IMG_4680.jpeg" alt="Israel will survive this and persist." onclick="openLb(4)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Israel will survive this and persist.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">A statement of historical fact dressed as provocation. Jews have survived empires, inquisitions, pogroms, and industrialized murder.</p>
+    <button class="read-more" onclick="openEssay(4)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap wide">
-      <span class="entry-number">No. 02</span>
-      <img src="copy_EF4DED5D-D40B-4988-9991-02822D253EA7.jpeg" alt="I've never heard a pro-Jewish person claim Jews are European." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">I've never heard a pro-Jewish person claim Jews are European.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The indigenous argument runs one direction only. Nobody fighting for Mizrahi, Ethiopian, or Yemenite Jews calls them European—only the people trying to erase their connection to the land do. The graphic named the pattern flat.</p>
-    </div>
-  </article>
+<article class="entry" data-i="5">
+  <div class="entry-image-wrap wide"><span class="entry-number">No. 06</span><img src="copy_EF4DED5D-D40B-4988-9991-02822D253EA7.jpeg" alt="I've never heard a pro-Jewish person claim Jews are European." onclick="openLb(5)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">I've never heard a pro-Jewish person claim Jews are European.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The indigenous argument runs one direction only.</p>
+    <button class="read-more" onclick="openEssay(5)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap wide">
-      <span class="entry-number">No. 02</span>
-      <img src="3A5A6A55-B357-4215-8427-49870DB9FAD4.png" alt="Ethnostate — referring only to one country." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Ethnostate — referring only to one country.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Forty-plus countries have official state religions, ethnic return laws, or demographic foundations identical to Israel's—and none of them get the word. The selective application of the term isn't a description; it's a weapon, and this graphic said so without a single additional syllable.</p>
-    </div>
-  </article>
+<article class="entry" data-i="6">
+  <div class="entry-image-wrap wide"><span class="entry-number">No. 07</span><img src="3A5A6A55-B357-4215-8427-49870DB9FAD4.png" alt="Ethnostate — referring only to one country." onclick="openLb(6)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Ethnostate — referring only to one country.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Forty-plus countries have identical foundations—and none of them get the word.</p>
+    <button class="read-more" onclick="openEssay(6)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="1E88DDB1-0FCA-4DE5-B31B-E0A964DCD162.png" alt="If Israel ends — where do 7.7 million Jews go?" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">If Israel ends—where do 7.7 million Jews go?</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The question antizionism refuses to answer directly. Dismantling Israel isn't a policy proposal—it's a population problem with no stated solution, and the silence on that point has its own name. Answer directly.</p>
-    </div>
-  </article>
+<article class="entry" data-i="7">
+  <div class="entry-image-wrap"><span class="entry-number">No. 08</span><img src="1E88DDB1-0FCA-4DE5-B31B-E0A964DCD162.png" alt="If Israel ends—where do 7.7 million Jews go?" onclick="openLb(7)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">If Israel ends—where do 7.7 million Jews go?</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The question antizionism refuses to answer directly.</p>
+    <button class="read-more" onclick="openEssay(7)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_4784.jpeg" alt="Israel is not what they say it is." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Israel is not what they say it is.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The entire series in a single sentence. The accusation preceded the evidence, the verdict preceded the trial, and the label preceded the definition—and this graphic said so flat, without apology, without a footnote.</p>
-    </div>
-  </article>
+<article class="entry" data-i="8">
+  <div class="entry-image-wrap"><span class="entry-number">No. 09</span><img src="IMG_4784.jpeg" alt="Israel is not what they say it is." onclick="openLb(8)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Israel is not what they say it is.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The accusation preceded the evidence, the verdict preceded the trial, and the label preceded the definition.</p>
+    <button class="read-more" onclick="openEssay(8)">← Read more</button>
+  </div>
+</article>
 
+<article class="entry" data-i="9">
+  <div class="entry-image-wrap wide"><span class="entry-number">No. 10</span><img src="D02FAB6A-5E24-41A4-B9A2-C363EDA70282.png" alt="Antizionism isn't identical to antisemitism: but it's certainly antisemitic." onclick="openLb(9)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Antizionism isn't identical to antisemitism: but it's certainly antisemitic.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The graphic that refused the false binary.</p>
+    <button class="read-more" onclick="openEssay(9)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap wide">
-      <span class="entry-number">No. 02</span>
-      <img src="D02FAB6A-5E24-41A4-B9A2-C363EDA70282.png" alt="Antizionism isn't identical to antisemitism: but it's certainly antisemitic." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Antizionism isn't identical to antisemitism: but it's certainly antisemitic.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The graphic that refused the false binary. You don't have to argue they're the same thing to notice they produce the same result—Jews targeted, Jews harmed, Jews dead. The outcome is the argument, and this one made it in two sentences.</p>
-    </div>
-  </article>
+<article class="entry" data-i="10">
+  <div class="entry-image-wrap"><span class="entry-number">No. 11</span><img src="IMG_4849.png" alt="No protest named a hostage." onclick="openLb(10)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">No protest named a hostage.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Hundreds of marches, thousands of signs—not one named Hersh, or Agam, or Liri.</p>
+    <button class="read-more" onclick="openEssay(10)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_4849.png" alt="No protest named a hostage." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">No protest named a hostage.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Hundreds of marches, thousands of signs, millions of words—and not one named Hersh, or Agam, or Liri. The movement that called itself a humanitarian movement couldn't name a single person held in a tunnel. That's not an oversight; it's a choice.</p>
-    </div>
-  </article>
+<article class="entry" data-i="11">
+  <div class="entry-image-wrap"><span class="entry-number">No. 12</span><img src="IMG_4850.png" alt="They oppose Zionism. Not dictators." onclick="openLb(11)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">They oppose Zionism. Not dictators.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Assad gassed 200,000 Syrians. The movement saved its energy for the democracy.</p>
+    <button class="read-more" onclick="openEssay(11)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_4850.png" alt="They oppose Zionism. Not dictators." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">They oppose Zionism. Not dictators.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Assad gassed 200,000 Syrians. Khamenei hangs dissidents in the streets. Kim Jong-un runs actual labor camps. The movement with the loudest human rights vocabulary saved its energy for the democracy. That pattern has a name.</p>
-    </div>
-  </article>
+<article class="entry" data-i="12">
+  <div class="entry-image-wrap"><span class="entry-number">No. 13</span><img src="IMG_5017.png" alt="Israelis are far. Jews'll do." onclick="openLb(12)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"Israelis are far. Jews'll do."</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Six words that collapsed the distinction the whole movement depends on.</p>
+    <button class="read-more" onclick="openEssay(12)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5017.png" alt="&ldquo;Israelis are far. Jews'll do.&rdquo;" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"Israelis are far. Jews'll do."</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Six words that collapsed the distinction the whole movement depends on. The argument that antizionism isn't about Jews ran directly into the fact that when Israelis weren't available, Jews anywhere would do. The graphic didn't editorialize—it just quoted.</p>
-    </div>
-  </article>
+<article class="entry" data-i="13">
+  <div class="entry-image-wrap"><span class="entry-number">No. 14</span><img src="IMG_4919.jpeg" alt="Antizionism harms Jews." onclick="openLb(13)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Antizionism harms Jews.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Not a theory—a documented record.</p>
+    <button class="read-more" onclick="openEssay(13)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_4919.jpeg" alt="Antizionism harms Jews." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Antizionism harms Jews.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Not a theory—a documented record. Campus harassment, synagogue vandalism, physical assaults correlated with antizionist rhetoric in city after city, country after country, since October 2023. The graphic said what the data shows and dared anyone to argue with it.</p>
-    </div>
-  </article>
+<article class="entry" data-i="14">
+  <div class="entry-image-wrap"><span class="entry-number">No. 15</span><img src="IMG_5117.jpeg" alt="Not antisemitic, just antizionist — knows the way to the synagogue." onclick="openLb(14)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"Somehow 'not antisemitic, just antizionist' knows the way to the synagogue."</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Pittsburgh. Poway. Paris. The disclaimer kept ending up at the same address.</p>
+    <button class="read-more" onclick="openEssay(14)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5117.jpeg" alt="&lsquo;Not antisemitic, just antizionist&rsquo; knows the way to the synagogue." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"Somehow 'not antisemitic, just antizionist' knows the way to the synagogue."</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The disclaimer and the destination kept ending up at the same address. Pittsburgh. Poway. Paris. The people who insisted they had no problem with Jews kept showing up where Jews pray. This graphic named the navigation system.</p>
-    </div>
-  </article>
+<article class="entry" data-i="15">
+  <div class="entry-image-wrap"><span class="entry-number">No. 16</span><img src="82D854C8-9C04-403C-AF97-F8781820E579.png" alt="Polio vaccines." onclick="openLb(15)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"I knew Israel was genocidal when they paused war to facilitate 1.6 million polio vaccines to Gazan children last September."</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The verdict of genocide was unaffected. Antizionism will find a way.</p>
+    <button class="read-more" onclick="openEssay(15)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="82D854C8-9C04-403C-AF97-F8781820E579.png" alt="&ldquo;I knew Israel was genocidal when they paused war to facilitate 1.6 million polio vaccines to Gazan children.&rdquo;" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"I knew Israel was genocidal when they paused war to facilitate 1.6 million polio vaccines to Gazan children last September."</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">September 2024: Israel paused military operations in Gaza for a WHO-coordinated polio vaccination campaign that reached 1.6 million children. The verdict of genocide was unaffected. Antizionism will find a way—and this graphic let the logic speak entirely for itself.</p>
-    </div>
-  </article>
+<article class="entry" data-i="16">
+  <div class="entry-image-wrap"><span class="entry-number">No. 17</span><img src="BBEEB318-3004-40FB-B39B-811ADA74D3EA.png" alt="Dismantle the only Jewish state." onclick="openLb(16)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"Dismantle the only Jewish state and 8 million Jews can live with Hamas without an army." / "Don't worry everyone, I have a Jewish friend."</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The credential was supposed to settle it.</p>
+    <button class="read-more" onclick="openEssay(16)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="BBEEB318-3004-40FB-B39B-811ADA74D3EA.png" alt="&ldquo;Dismantle the only Jewish state and 8 million Jews can live with Hamas without an army.&rdquo;" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"Dismantle the only Jewish state and 8 million Jews can live with Hamas without an army." / "Don't worry everyone, I have a Jewish friend."</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The two-panel structure did all the work: a proposal to leave 8 million Jews defenseless next to Hamas, immediately followed by the reassurance that the speaker has a Jewish friend. The credential was supposed to settle it. The graphic let that land without comment.</p>
-    </div>
-  </article>
+<article class="entry" data-i="17">
+  <div class="entry-image-wrap"><span class="entry-number">No. 18</span><img src="FBA042D1-F7F7-44E6-BE49-C0B19CB01934.png" alt="BDS founder Tel Aviv." onclick="openLb(17)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">The founder of BDS called for Israeli college boycotts. He would have no master's from Tel Aviv University.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The gap between the policy and the life closed on its own.</p>
+    <button class="read-more" onclick="openEssay(17)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="FBA042D1-F7F7-44E6-BE49-C0B19CB01934.png" alt="The founder of BDS called for Israeli college boycotts. He would have no master&rsquo;s from Tel Aviv University." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">The founder of BDS called for Israeli college boycotts. He would have no master's from Tel Aviv University.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Omar Barghouti co-founded the BDS movement in 2005 while enrolled at Tel Aviv University—the institution whose academic boycott he was simultaneously organizing. The graphic named him, named the degree, and let the gap between the policy and the life close on its own.</p>
-    </div>
-  </article>
+<article class="entry" data-i="18">
+  <div class="entry-image-wrap"><span class="entry-number">No. 19</span><img src="IMG_5285.jpeg" alt="Can't define Zionism. Still want it destroyed." onclick="openLb(18)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Can't define Zionism. Still want it destroyed.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The inability to define the target didn't slow down the demand to eliminate it.</p>
+    <button class="read-more" onclick="openEssay(18)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5481.jpeg" alt="The question isn't who mourns 1948. It's who still wants to reverse it." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">The question isn't who mourns 1948. It's who still wants to reverse it.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Grief and eliminationism aren't the same thing—and this graphic drew that line flat. You can mourn displacement without demanding a reversal that requires removing 7.7 million Jews from the only state they have. The Nakba framework earns its scrutiny precisely at the point where mourning becomes a program.</p>
-    </div>
-  </article>
+<article class="entry" data-i="19">
+  <div class="entry-image-wrap"><span class="entry-number">No. 20</span><img src="IMG_5481.jpeg" alt="The question isn't who mourns 1948." onclick="openLb(19)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">The question isn't who mourns 1948. It's who still wants to reverse it.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Grief and eliminationism aren't the same thing.</p>
+    <button class="read-more" onclick="openEssay(19)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5586.jpeg" alt="&ldquo;I believe survivors, but she started speaking Hebrew.&rdquo;" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"I believe survivors, but she started speaking Hebrew."</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The movement that spent years building the phrase "I believe survivors" as a moral absolute discovered an exception: October 7 witnesses. The exception arrived the moment the survivors spoke Hebrew. This graphic didn't editorialize—it just reported the condition attached to the belief.</p>
-    </div>
-  </article>
+<article class="entry" data-i="20">
+  <div class="entry-image-wrap"><span class="entry-number">No. 21</span><img src="IMG_5586.jpeg" alt="I believe survivors, but she started speaking Hebrew." onclick="openLb(20)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"I believe survivors, but she started speaking Hebrew."</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">The exception arrived the moment the survivors spoke Hebrew.</p>
+    <button class="read-more" onclick="openEssay(20)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap wide">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5706.jpeg" alt="&ldquo;Clamor&rdquo; — ICC prosecutor Khan on evidence for genocide" onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"Clamor" — ICC prosecutor Khan on the evidence for genocide.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">When asked by a BBC journalist what evidence supported the genocide charge against Israel, ICC prosecutor Karim Khan—the man who filed the warrant—described the public demand as a "clamor." Not evidence, not findings: clamor. The graphic put one word in quotation marks and let it do everything.</p>
-    </div>
-  </article>
+<article class="entry" data-i="21">
+  <div class="entry-image-wrap wide"><span class="entry-number">No. 22</span><img src="IMG_5706.jpeg" alt="Clamor." onclick="openLb(21)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"Clamor" — ICC prosecutor Khan on the evidence for genocide.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Not evidence, not findings: clamor.</p>
+    <button class="read-more" onclick="openEssay(21)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5753.jpeg" alt="&ldquo;I'm not antisemitic.&rdquo; Wearing the keffiyeh. Outside the shul. On Shabbat. In the dark. Yelling." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">"I'm not antisemitic." — Wearing the keffiyeh. Outside the shul. On Shabbat. In the dark. Yelling.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">The staccato structure was the argument. Each line added a detail that made the disclaimer harder to sustain—until by "Yelling" the self-description had collapsed entirely under its own specificity. No commentary needed. The graphic just kept adding facts until the claim gave out.</p>
-    </div>
-  </article>
+<article class="entry" data-i="22">
+  <div class="entry-image-wrap"><span class="entry-number">No. 23</span><img src="IMG_5753.jpeg" alt="I'm not antisemitic." onclick="openLb(22)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">"I'm not antisemitic." — Wearing the keffiyeh. Outside the shul. On Shabbat. In the dark. Yelling.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Each line added a detail that made the disclaimer harder to sustain.</p>
+    <button class="read-more" onclick="openEssay(22)">← Read more</button>
+  </div>
+</article>
 
-  <article class="entry" data-i="1">
-    <div class="entry-image-wrap">
-      <span class="entry-number">No. 02</span>
-      <img src="IMG_5869.jpeg" alt="Piker said he'd vote for Hamas over Israel, shielding them from criticism. Their shield's normally can't talk." onclick="openLb(1)">
-    </div>
-    <div class="entry-body">
-      <h2 class="entry-title">Piker said he'd vote for Hamas over Israel, shielding them from criticism. Their shield's normally can't talk.</h2>
-      <div class="entry-rule"></div>
-      <p class="entry-text">Hasan Piker—Twitch's largest political streamer—said on stream he'd vote for Hamas over Israel and that Hamas criticism was cover for genocide. Hamas uses Gazan civilians as human shields. This graphic noticed that Piker's rhetorical shield, unlike theirs, was able to explain itself afterward.</p>
-    </div>
-  </article>
+<article class="entry" data-i="23">
+  <div class="entry-image-wrap"><span class="entry-number">No. 24</span><img src="IMG_5869.jpeg" alt="Piker Hamas shield." onclick="openLb(23)"></div>
+  <div class="entry-body">
+    <h2 class="entry-title">Piker said he'd vote for Hamas over Israel. Their shield's normally can't talk.</h2>
+    <div class="entry-rule"></div>
+    <p class="entry-text">Piker's rhetorical shield, unlike theirs, was able to explain itself afterward.</p>
+    <button class="read-more" onclick="openEssay(23)">← Read more</button>
+  </div>
+</article>
 
 </main>
 
@@ -591,6 +341,18 @@
   <p><span>That's it. That's the statement.</span></p>
   <p>The Inverted World</p>
 </footer>
+
+<!-- ESSAY OVERLAY -->
+<div class="essay-overlay" id="essay-overlay">
+  <div class="essay-inner">
+    <button class="essay-back" onclick="closeEssay()">← Back to series</button>
+    <img class="essay-img" id="essay-img" src="" alt="">
+    <p class="essay-num" id="essay-num"></p>
+    <h2 class="essay-title" id="essay-title"></h2>
+    <div class="essay-rule"></div>
+    <div class="essay-body" id="essay-body"></div>
+  </div>
+</div>
 
 <!-- LIGHTBOX -->
 <div class="lb" id="lb" onclick="closeLbBg(event)">
@@ -628,44 +390,277 @@ const imgs = [
   'IMG_5869.jpeg'
 ];
 
+const essays = [
+  {
+    num: 'No. 01',
+    title: "That's it. That's the statement. Series.",
+    body: `<p>There's a specific kind of exhaustion that comes from watching a sentence become controversial. Not a complicated sentence. Not a sentence with footnotes or conditions or asterisks. Just: Israel should exist.</p>
+<p>That's it. That's the statement.</p>
+<p>At some point in the last several years—you could argue the timeline, but October 7 accelerated it—saying that out loud in certain rooms became an act of defiance. Not an argument. Not a position paper. Just the baseline acknowledgment that a democratic state with 7.7 million citizens has the right to continue existing. That sentence now gets you called a genocide supporter at universities, blocked on social media, and disinvited from panels.</p>
+<p>This series started because I was tired of pretending that was normal.</p>
+<p>Every graphic in this series is a statement. Some are short. Some are longer. Some are ironic, some are direct, some are just a fact held up to the light at a particular angle. What they share is the refusal to qualify. The refusal to front-load the criticism of Israel before getting to the defense of it—as though you have to pay a tax before you're allowed to say Jews deserve a country.</p>
+<p>You don't.</p>
+<p>The series is called <em>That's it. That's the statement.</em> because that's the whole move. State the thing. Don't flinch. Don't add the disclaimer. Don't soften it for the room.</p>
+<p>Israel should exist. That's it. That's the statement.</p>`
+  },
+  {
+    num: 'No. 02',
+    title: 'Israel should continue to exist.',
+    body: `<p>"Should have been created" and "should keep existing" are two different arguments—and the discourse treats them as one. The first is a historical debate about 1948. The second is a question about the present. Conflating them is one of antizionism's core tricks: collapse the legitimacy question into the founding question, then relitigate the founding, then declare the whole thing illegitimate from the start.</p>
+<p>This graphic separated them. Israel exists. It has existed for seventy-seven years. It has a population of nearly ten million people—Jewish, Arab, Druze, Bedouin, Christian. It has a parliament, a supreme court that rules against its own government, a free press, and universities that produce Nobel laureates. Whatever your position on 1948, the question of whether it should <em>continue</em> to exist is a different question—and it has a different answer.</p>
+<p>The word "continue" did something specific. It forced the argument into the present tense. It said: we're not relitigating 1948 right now. We're talking about today. About now. About whether the people living there have the right to keep living there, with a state, with an army, with a flag.</p>
+<p>They do.</p>
+<p>Every other nation's continued existence is taken as a given. Nobody relitigates whether Germany should still exist. Nobody demands that France justify its founding before being allowed to defend itself. Israel is the one country on earth required to re-earn its right to exist in every news cycle. This graphic refused that requirement. Israel should continue to exist. That's the statement. Move on.</p>`
+  },
+  {
+    num: 'No. 03',
+    title: 'Israel has the right to defend its citizens.',
+    body: `<p>Name one other country that gets asked to prove it has the right to self-defense before being allowed to exercise it. Go ahead. Take your time.</p>
+<p>You can't—because no other country is asked. The right of a state to defend its citizens is so foundational to the concept of statehood that it doesn't get argued. It gets assumed. France wasn't told to justify its response to the Bataclan. The United States wasn't asked to earn its right to respond to September 11. Every democratic government on earth operates on the premise that when your civilians are murdered, you have the right—the obligation—to act.</p>
+<p>Israel gets a different standard. Israel gets asked, after 1,200 people are massacred and 251 are taken hostage, to prove that it is allowed to respond. To demonstrate proportionality before it fires a shot. To accept humanitarian conditions that no other country in the history of warfare has been asked to accept before being permitted to defend itself.</p>
+<p>That's not a higher standard. That's a different category.</p>
+<p>The graphic stated the obvious because the obvious had become contested. Israel has the right to defend its citizens. Jewish citizens. Arab citizens. Druze soldiers. Bedouin families. All of them. The same right France has. The same right the United States has. The same right every country on earth claims as a matter of course—except, in the telling of a certain crowd, this one.</p>
+<p>That's it. That's the statement.</p>`
+  },
+  {
+    num: 'No. 04',
+    title: 'Israel Sucks at Genocide.',
+    body: `<p>Genocide has a definition. It's not a vibe. It's not a metaphor. It's not an emotional response to a high casualty count. The Genocide Convention—the actual legal document, drafted in 1948 in direct response to the Holocaust—defines it as acts committed with intent to destroy a national, ethnic, racial, or religious group in whole or in part.</p>
+<p>Intent to destroy. In whole or in part.</p>
+<p>Gaza's population in 2007, when Hamas took control: approximately 1.5 million. Gaza's population in 2023, before October 7: approximately 2.3 million. That's a 53% increase over sixteen years of what we're told was a genocidal blockade. Genocides don't produce population growth. They produce the opposite.</p>
+<p>The graphic wasn't being flip. It was doing math. If Israel is conducting a genocide, it is the least effective genocide in recorded human history—carried out by a country with one of the most advanced militaries on earth, against a population it supposedly wants to eliminate, that somehow keeps growing.</p>
+<p>The charge of genocide against Israel has been brought before the International Court of Justice. ICC prosecutor Karim Khan, when asked directly what evidence supported it, described the public pressure as a "clamor." Not evidence. Clamor.</p>
+<p>The accusation is a rhetorical weapon, not a legal finding. It's designed to foreclose the conversation—to make Israel radioactive before the facts are examined. This graphic examined the facts. Israel sucks at genocide. Because it isn't committing one.</p>`
+  },
+  {
+    num: 'No. 05',
+    title: 'Israel will survive this and persist.',
+    body: `<p>Jewish history is a history of survival against predictions of annihilation. The Assyrians said the northern kingdom was finished—it was, but the people weren't. The Romans destroyed the Temple in 70 CE and declared Judea erased. Medieval Christendom ran the Inquisition. The Russian Empire ran the pogroms. Nazi Germany ran the camps. Every time, someone declared that this was the end. Every time, they were wrong.</p>
+<p>Israel is seventy-seven years old. It has fought eight major wars, survived four rounds of large-scale conflict with Hamas, absorbed a missile barrage from Iran, and buried 1,200 people murdered in a single morning. It has done all of this while building one of the most innovative economies on earth, producing more startups per capita than any country in the world, and maintaining a functioning democracy in a region that has almost none.</p>
+<p>The movement currently arrayed against it—the campus protests, the BDS campaigns, the ICC proceedings, the social media pile-ons—is not nothing. It's real, it's organized, and it's doing damage. But it is not the Ottoman Empire. It is not the Wehrmacht. It is not the combined armies of Egypt, Syria, and Jordan in 1967.</p>
+<p>Israel has faced worse and persisted. Not because of luck, not because of American support alone, but because the people living there are committed to being there. This graphic wasn't triumphalism. It was a statement of historical record.</p>
+<p>Israel will survive this and persist. That's it. That's the statement.</p>`
+  },
+  {
+    num: 'No. 06',
+    title: "I've never heard a pro-Jewish person claim Jews are European.",
+    body: `<p>Here's how the settler-colonialism argument works: Jews are European. Europe colonized the Middle East. Therefore Jews colonized Palestine. Therefore Israel is a colonial project. Therefore antizionism is anticolonialism. QED.</p>
+<p>The problem is the first premise. Jews are not European—and the people who actually defend Jewish history and Jewish identity have never said they are. The "Jews are European" claim comes exclusively from people trying to sever Jews from their indigenous connection to the land.</p>
+<p>Mizrahi Jews—from Iraq, Yemen, Morocco, Iran, Syria, Egypt—make up roughly half of Israel's Jewish population. They were expelled from Arab countries in the decades following 1948: approximately 850,000 people, most of whom ended up in Israel. Ethiopian Jews were airlifted out of Africa in Operations Moses and Solomon. Yemenite Jews fled persecution. None of them are European. None of them were "settlers" from somewhere else. They are indigenous to the region in the most direct sense of the word.</p>
+<p>The Ashkenazi Jews—the ones the settler-colonialism framework is built around—have documented continuous presence in the Land of Israel going back to antiquity, maintained through unbroken religious, cultural, and physical connection. Their European sojourn was called exile. They called it that themselves.</p>
+<p>Nobody fighting for Jewish people calls them European. That framing was invented by people trying to erase their connection to the land. This graphic noticed who was making the argument—and what that told you about why.</p>`
+  },
+  {
+    num: 'No. 07',
+    title: 'Ethnostate — referring only to one country.',
+    body: `<p>Germany has a Law of Return for ethnic Germans. Greece has one for ethnic Greeks. Ireland has one for people of Irish descent. Hungary, Poland, Armenia, Finland, South Korea, Japan—all have legal provisions giving preferential immigration status to members of their ethnic or national group. Nobody calls them ethnostates.</p>
+<p>Saudi Arabia is an Islamic monarchy that legally enforces religious identity as a condition of citizenship. Pakistan was founded explicitly as a state for South Asian Muslims. Iran is the Islamic Republic. Nobody calls them ethnostates.</p>
+<p>Jordan's constitution restricts certain positions to Muslims. Kuwait's citizenship law is based on tribal lineage. The Palestinian Authority's draft constitution declares Palestine an Arab state with Islam as its official religion. Nobody calls them ethnostates.</p>
+<p>Israel has a Law of Return for Jewish people—a people who were stateless, persecuted, and killed for two millennia before that law was written. It has Arab citizens who serve in the Knesset, sit on the Supreme Court, and hold the rank of general in the IDF. Its Declaration of Independence guarantees equal rights to all citizens regardless of religion, race, or sex.</p>
+<p>And Israel is the ethnostate.</p>
+<p>The word isn't a description. It's a targeting mechanism. It was coined in academic circles in the 1990s and deployed selectively—always at Israel, never at the forty-plus countries with identical or more restrictive ethnic and religious foundations. Selective application of a term isn't analysis. It's a weapon. This graphic named it as one.</p>`
+  },
+  {
+    num: 'No. 08',
+    title: 'If Israel ends—where do 7.7 million Jews go?',
+    body: `<p>This is the question. Not a rhetorical question—an actual question that demands an actual answer. From the river to the sea: which river, which sea, and where do the people between them go?</p>
+<p>There are 7.7 million Jewish Israelis. Roughly half of them are Mizrahi—from Arab and Muslim countries that expelled them. They have no "back" to go to. The other half are Ashkenazi, many of them descendants of Holocaust survivors who had nowhere else to go when Israel was founded. The countries that refused them then are not obvious destinations now.</p>
+<p>When pressed, the answers the movement gives are: they can stay, as a minority, in a Palestinian state. Ask them to specify the rights framework for that minority. Ask them to name a single Arab country where Jews currently live as a protected minority with full civil rights. Ask them what the Hamas charter—still in effect—says about Jews. Ask them what happened to the Jews of Iraq, Yemen, Egypt, Libya, Syria, and Tunisia.</p>
+<p>The silence that follows is the answer.</p>
+<p>"Dismantle Israel" is not a policy proposal. It's a population problem with no stated solution. The movement has spent years building a vocabulary for Palestinian suffering—and it should, that suffering is real—while refusing to engage with the arithmetic of its own endgame. Seven point seven million people live in Israel. They exist. They have to go somewhere. The graphic asked where. The movement still hasn't answered.</p>`
+  },
+  {
+    num: 'No. 09',
+    title: 'Israel is not what they say it is.',
+    body: `<p>The labels came before the evidence. Apartheid. Genocide. Settler-colonialism. Ethnostate. They arrived fully formed, deployed with confidence, and attached to Israel before anyone examined whether they fit. The question was never "does the evidence support this label?" The question was "which label do we apply next?"</p>
+<p>Israel is a democracy. Imperfect, contested, sometimes ugly—but a democracy, with elections, an independent judiciary that rules against its own government, a free press that criticizes its leadership, and Arab citizens who hold seats in parliament and positions on the Supreme Court. By the metrics used to evaluate every other country, Israel is a flawed democracy—the same category occupied by the United States, France, Hungary, and India.</p>
+<p>It is not an apartheid state. Apartheid was a specific legal system in South Africa that classified citizens by race and enforced separation by law. Israeli Arabs vote, litigate, serve in the military by choice, and sit on the court that overrules the government. The Palestinian Authority in the West Bank and Hamas in Gaza are not Israeli citizens—they are residents of territories in a conflict that has been offered resolution multiple times and rejected each time.</p>
+<p>It is not committing genocide. See the math.</p>
+<p>What it is: a small country surrounded by people who have, in living memory and in writing, stated their intent to destroy it. A country that defends itself, makes mistakes, and keeps existing anyway.</p>
+<p>Israel is not what they say it is. That's it. That's the statement.</p>`
+  },
+  {
+    num: 'No. 10',
+    title: "Antizionism isn't identical to antisemitism: but it's certainly antisemitic.",
+    body: `<p>The distinction between antizionism and antisemitism is real—and it's doing a lot of work it wasn't designed to do.</p>
+<p>Yes, they are conceptually separable. You can oppose Israeli government policy without hating Jews. You can criticize the occupation, the settlement enterprise, the conduct of specific military operations, and none of that is antisemitism by definition. The distinction matters. It's worth preserving.</p>
+<p>But here's what the distinction has become in practice: a trapdoor. A way to say things about Jews—their power, their money, their dual loyalty, their manipulation of governments—while routing the sentence through Israel first. "The Israel lobby controls Congress" is the same sentence as the older one, with a different first word. "Zionists run the media" is structurally identical to what Julius Streicher published in 1934. The object of the sentence changed. The architecture didn't.</p>
+<p>What the graphic captured was the outcome argument. You don't have to prove identical motivation to notice identical result. Antizionism targets Jews—specifically Jews, not Israelis, not governments, but Jews in synagogues, on campuses, walking to school—at a rate that correlates directly with antizionist discourse intensity. The correlation is documented. The cities are on record. The incidents are counted.</p>
+<p>Both produce the same outcome: harming Jews. That's not a coincidence requiring explanation. It's a pattern requiring acknowledgment. This graphic refused the evasion. Antizionism isn't identical to antisemitism. But it's certainly antisemitic. Both halves of that sentence matter.</p>`
+  },
+  {
+    num: 'No. 11',
+    title: 'No protest named a hostage.',
+    body: `<p>They had names. Hersh Goldberg-Polin, 23 years old, taken from the Nova music festival with his arm blown off. Agam Berger, 20, an IDF soldier. Liri Albag, 19. Naama Levy, 19. Karina Ariev, 20. They were daughters and sons and soldiers and partygoers and kibbutz residents. They had names, ages, faces, families.</p>
+<p>The protests didn't use them.</p>
+<p>From October 2023 through 2024, hundreds of campus demonstrations, street marches, and institutional disruptions took place across the United States, the United Kingdom, Europe, and Australia. They named Palestinian casualties—some of them correctly, some of them incorrectly, some of them later revealed to be Hamas fighters counted as civilians. They named journalists. They named children. They did not name hostages.</p>
+<p>This isn't a minor oversight. The hostages were the central humanitarian crisis of the conflict's first phase—251 people taken into tunnels, including infants, elderly Holocaust survivors, Thai agricultural workers, and American citizens. Any movement genuinely animated by humanitarian concern would have made their names its first demand.</p>
+<p>The movement that called itself humanitarian couldn't name a single one.</p>
+<p>What that told you wasn't subtle. It told you who the movement considered human enough to name. It told you which suffering registered and which didn't. It told you that "humanitarian" was a frame, not a commitment. This graphic didn't make an argument. It just stated what happened—and let the silence around those names say the rest.</p>`
+  },
+  {
+    num: 'No. 12',
+    title: 'They oppose Zionism. Not dictators.',
+    body: `<p>Assad used chemical weapons on his own population. Conservative estimates put the Syrian death toll at 500,000—most of them killed by the Assad government, not ISIS. The protests were quiet.</p>
+<p>Khamenei's Iran hangs dissidents in the streets. It executed over 800 people in 2023 alone—the highest rate in decades. It imprisons women for removing their hijabs. The protests were quiet.</p>
+<p>Kim Jong-un operates a network of political prison camps holding an estimated 100,000 people. Torture, starvation, multigenerational imprisonment. The protests were quiet.</p>
+<p>Xi Jinping has detained over a million Uyghurs in what his own officials described in leaked documents as "re-education" camps. The protests were quiet.</p>
+<p>Israel conducted military operations in Gaza in response to a massacre, with documented hostages underground, against an enemy that uses civilian infrastructure as military cover. The protests were loud, sustained, and global.</p>
+<p>The movement has a vocabulary: settler-colonialism, apartheid, genocide, resistance. That vocabulary is deployed against exactly one country. Not against the countries that actually run apartheid-style systems. Not against the countries conducting actual ethnic cleansing. Not against the theocracies or the one-party states or the dictatorships that make Israel look like Switzerland by comparison.</p>
+<p>Against the Jewish democracy.</p>
+<p>That's not a coincidence requiring complicated explanation. It's a pattern with a simple name. This graphic named it in two sentences and dared the movement to explain the silence on the rest.</p>`
+  },
+  {
+    num: 'No. 13',
+    title: '"Israelis are far. Jews\'ll do."',
+    body: `<p>This was said. Out loud. At a protest. By someone who presumably considered themselves opposed to antisemitism—who would have bristled at being called antisemitic, who had the full vocabulary of antizionism available to them, who understood in theory that opposing Israel is not the same as targeting Jews.</p>
+<p>And then they said it anyway: Israelis are far. Jews'll do.</p>
+<p>The distinction between antizionism and antisemitism—which is real, which matters, which I've spent considerable time defending in the precise sense—collapsed in a single sentence. The target was always Jews. Israelis were the preferred version because targeting Israelis has geopolitical cover. When the geographically convenient Israelis weren't available, the Jews nearby would serve as substitutes.</p>
+<p>This is what the data shows. Antisemitic incidents in Western countries spike in direct correlation with escalations in the Israeli-Palestinian conflict. Not incidents targeting Israeli embassies or government offices—incidents targeting synagogues, Jewish community centers, Jewish-owned businesses, and Jewish individuals walking down streets in cities that have nothing to do with any military operation.</p>
+<p>The graphic didn't invent this logic. It quoted it. Someone at a protest said the quiet part out loud, and the graphic put quotation marks around it and asked you to sit with what that meant about everything else the movement had been claiming.</p>
+<p>Antizionism finds a way. It finds the way from "I oppose Israeli policy" to "Jews'll do" faster than its proponents would like to admit. This sentence was the map.</p>`
+  },
+  {
+    num: 'No. 14',
+    title: 'Antizionism harms Jews.',
+    body: `<p>This isn't a philosophical claim. It's an empirical one. The data exists. The incidents are counted. The addresses are on record.</p>
+<p>In the United States, the Anti-Defamation League documented a 360% increase in antisemitic incidents in the month following October 7, 2023. In the United Kingdom, the Community Security Trust recorded the highest number of antisemitic incidents in its forty-year history in 2023. In France, antisemitic acts tripled. In Germany, they doubled.</p>
+<p>These were not incidents targeting the Israeli government or Israeli diplomatic missions. They were incidents targeting Jews—synagogues vandalized, Jewish-owned businesses boycotted and harassed, Jewish students surrounded on campuses, Jewish individuals physically assaulted on streets in New York, London, Paris, and Berlin.</p>
+<p>The correlation with antizionist discourse is documented. The rhetoric precedes the incidents. The language of the protests—genocidal, settler-colonial, baby-killer—migrates from the rally to the street to the synagogue door. Not in every case. Not by every participant. But the pattern is consistent enough across enough cities and enough incidents that denying the connection requires willful ignorance.</p>
+<p>The movement insists it targets a state, not a people. The incidents disagree. You can argue about intent all you want—about whether the protesters "really" mean to harm Jews, about whether the connection is causal or merely correlational. The Jews being harmed are not having a philosophical debate. They are removing mezuzot from their doors, avoiding Jewish institutions, and asking whether their neighborhoods are safe.</p>
+<p>Antizionism harms Jews. That's not a slogan. It's a finding.</p>`
+  },
+  {
+    num: 'No. 15',
+    title: '"Somehow \'not antisemitic, just antizionist\' knows the way to the synagogue."',
+    body: `<p>October 27, 2018: Tree of Life Synagogue, Pittsburgh. Eleven dead. The shooter's online presence was saturated with antisemitic conspiracy theories that overlapped substantially with antizionist talking points about Jewish power and global manipulation.</p>
+<p>April 27, 2019: Chabad of Poway, California. One dead, three wounded. The shooter cited "Jewish domination" language structurally identical to what circulates in antizionist spaces online.</p>
+<p>The Rue Copernic synagogue bombing in Paris, 1980. The Ozar Hatorah school shooting in Toulouse, 2012. The Jewish Museum of Belgium, 2014. The Hypercacher kosher supermarket, Paris, 2015. The pattern is long and the addresses are specific.</p>
+<p>The perpetrators don't always announce themselves as antizionists. Some are white nationalists. Some are Islamists. Some are lone actors with a soup of influences. But the navigation—the targeting of specifically Jewish spaces, not Israeli embassies, not government buildings, but synagogues and schools and supermarkets—follows the same logic the graphic named.</p>
+<p>If your politics are about Israel, you don't shoot up a synagogue in Pittsburgh. Pittsburgh has no connection to Israeli policy. The people praying there that Saturday morning were American Jews, some of them elderly, none of them soldiers. The targeting logic requires a different premise—one that treats Jews as Jews, not Israelis as Israelis.</p>
+<p>"Not antisemitic, just antizionist" keeps knowing the way to the synagogue. This graphic asked why the navigation system keeps producing the same destination.</p>`
+  },
+  {
+    num: 'No. 16',
+    title: '"I knew Israel was genocidal when they paused war to facilitate 1.6 million polio vaccines to Gazan children last September."',
+    body: `<p>In September 2024, Israel agreed to pause military operations in Gaza to allow a WHO-coordinated polio vaccination campaign. The pause happened. The vaccines were administered. 1.6 million children in Gaza received polio vaccinations during a wartime ceasefire that Israel agreed to specifically for that purpose.</p>
+<p>The verdict did not change.</p>
+<p>This is what the graphic was documenting: the unfalsifiability of the genocide accusation. No fact can dislodge it. No action Israel takes—no humanitarian corridor, no field hospital, no paused operation, no coordinated vaccination campaign—registers as evidence against the charge. The conclusion was reached before the evidence was examined. The evidence is now evaluated for whether it supports the conclusion. Evidence that doesn't support it is either ignored or reframed as proof of deeper cynicism.</p>
+<p>This is not how accusations are supposed to work. In any legitimate legal or analytical framework, evidence that contradicts your conclusion requires you to update your conclusion. An army that pauses a war to vaccinate enemy civilians is not behaving like an army conducting genocide. That is not a complicated observation.</p>
+<p>The graphic quoted the logic of people who had reached the genocide conclusion and processed the vaccination campaign as additional confirmation. Antizionism will find a way—it will take any fact, including acts of documented humanitarian facilitation, and route them back to the predetermined verdict.</p>
+<p>This is what unfalsifiable accusations look like in practice. This graphic held one up to the light.</p>`
+  },
+  {
+    num: 'No. 17',
+    title: '"Dismantle the only Jewish state and 8 million Jews can live with Hamas without an army." / "Don\'t worry everyone, I have a Jewish friend."',
+    body: `<p>The two-panel structure was the whole argument. You didn't need commentary. You just needed to read both sentences in sequence and let the gap between them close on its own.</p>
+<p>Panel one states a political position: dismantle Israel. Leave 8 million Jews—half of them already refugees from Arab countries that expelled them—in a territory bordered by Hamas, which has a founding charter calling for the killing of Jews, which carried out the largest single massacre of Jews since the Holocaust on October 7, 2023. Leave them there without an army. Trust the arrangement.</p>
+<p>Panel two provides the reassurance: don't worry everyone, I have a Jewish friend.</p>
+<p>The Jewish friend is doing a lot of work in that sentence. The Jewish friend is supposed to function as a credential—proof that the speaker is not antisemitic, proof that they have personally verified Jews and found them acceptable, proof that their political position is compatible with caring about Jewish people. The Jewish friend inoculates against the charge.</p>
+<p>What the Jewish friend cannot do is survive panel one. No personal affection for individual Jews cancels out a policy position that requires those Jews to be defenseless in front of people who have stated, in writing and in action, their intent to kill them.</p>
+<p>You can have Jewish friends and hold eliminationist politics. The two coexist fine. History has documented this combination repeatedly. This graphic just put both sentences on the same card and asked you to read them together.</p>`
+  },
+  {
+    num: 'No. 18',
+    title: "The founder of BDS called for Israeli college boycotts. He would have no master's from Tel Aviv University.",
+    body: `<p>Omar Barghouti co-founded the Boycott, Divestment, and Sanctions movement in 2005. The BDS movement calls for, among other things, a comprehensive academic and cultural boycott of Israeli institutions—including Israeli universities. The stated logic is that Israeli academic institutions are complicit in the occupation and therefore should be shunned by the international academic community.</p>
+<p>In 2005, Omar Barghouti was enrolled at Tel Aviv University.</p>
+<p>He completed his master's degree in philosophy there. While organizing the boycott of Israeli academic institutions. At an Israeli academic institution. Paying Israeli university tuition. Using Israeli university facilities. Receiving an Israeli university degree.</p>
+<p>When asked about this directly, Barghouti said his enrollment was a "personal matter" and that he had a "right to education." Which is true. It is also true that he was simultaneously arguing that everyone else should be denied access to those same educational institutions—and that Israeli universities should be cut off from the international academic networks that make them functional.</p>
+<p>The graphic didn't call him a hypocrite in so many words. It didn't need to. It named the movement, named the position, named the degree, named the university, and let you do the arithmetic.</p>
+<p>This is what the series calls named hypocrisy: when the gap between the stated principle and the lived life is so specific and so documented that naming the facts is sufficient. No editorializing required. The founder of BDS has a master's from Tel Aviv University. That's it. That's the statement.</p>`
+  },
+  {
+    num: 'No. 19',
+    title: "Can't define Zionism. Still want it destroyed.",
+    body: `<p>Ask someone at a pro-Palestinian rally to define Zionism. Do it politely. Wait for the answer.</p>
+<p>You'll get: settler-colonialism. European nationalism. White supremacy. Ethnic cleansing. A political movement. A religious movement. An ideology of displacement. A form of racism. Occasionally, if you're talking to someone who has read more carefully: the historical movement for Jewish self-determination in the ancestral homeland.</p>
+<p>Most of those answers are wrong. Some of them are contradictory. None of them are the same. The movement that has organized itself around the destruction of Zionism cannot agree on what Zionism is.</p>
+<p>Zionism is, historically and definitionally, the movement for Jewish self-determination in the Land of Israel. That's it. It predates the state. It's not inherently about displacing anyone—early Zionist leaders imagined peaceful coexistence, and many spent their careers trying to achieve it. It became complicated because history is complicated. But the base definition is not contested by anyone who has read the primary sources.</p>
+<p>The people who want it destroyed haven't read the primary sources. They've read the secondary literature produced by people who had already decided what conclusion to reach.</p>
+<p>What this graphic caught was the epistemological problem at the movement's core: you cannot coherently call for the destruction of something you cannot define. You cannot conduct a trial without specifying the crime. The movement charges Zionism with everything, defines it as nothing consistent, and demands its elimination. That's not politics. That's a feeling in search of a framework.</p>`
+  },
+  {
+    num: 'No. 20',
+    title: "The question isn't who mourns 1948. It's who still wants to reverse it.",
+    body: `<p>The Nakba was real. Palestinians were displaced in 1948—some fled, some were expelled, some left in anticipation of a war that Arab states launched against the newly declared State of Israel. Approximately 700,000 people were displaced. This is a historical fact, it is documented, and it produced genuine suffering that extends to this day through generations of refugees and their descendants.</p>
+<p>You can acknowledge all of that and still ask the next question: what do you want to do about it now?</p>
+<p>Because "mourning 1948" and "reversing 1948" are not the same position. Mourning is a human response to loss. Reversing requires a plan—and that plan has a name. It's called the Right of Return. It means the return of Palestinian refugees and their descendants—estimated at five to seven million people—to the territory that is now Israel. It means the end of Israel as a Jewish state. It means, in effect, that the state founded in 1948 is dismantled and replaced with something else.</p>
+<p>Nobody asks Germany to accept the return of all ethnic Germans expelled from Poland and Czechoslovakia after World War II. Nobody asks the successor states of the Ottoman Empire to reverse the population transfers of the early twentieth century. 1948 is the one partition, the one displacement, the one war of independence that the international community is asked to treat as permanently reversible.</p>
+<p>Grief is appropriate. Grief doesn't require an endgame. Reversal requires one—and this graphic asked you to be honest about what that endgame actually is.</p>`
+  },
+  {
+    num: 'No. 21',
+    title: '"I believe survivors, but she started speaking Hebrew."',
+    body: `<p>"I believe survivors" became a moral absolute in progressive spaces over the last decade. The principle is sound: people reporting trauma should be believed; the burden of proof should not fall on the person who was harmed; skepticism should be suspended in favor of the person making the claim. As a general orientation toward victims of violence and abuse, this is defensible and often correct.</p>
+<p>October 7 was a stress test.</p>
+<p>The Nova music festival massacre produced survivors. They gave accounts of what happened to them—rape, murder, mutilation, abduction. Forensic evidence confirmed the accounts. Testimony from Hamas fighters confirmed the accounts. The events were documented in real time by the perpetrators themselves, who filmed and shared what they did.</p>
+<p>And a significant portion of the same movement that had made "I believe survivors" its operating principle began questioning the accounts. Demanding evidence. Suggesting fabrication. Claiming the videos were staged. The shift happened fast, and it happened specifically when the survivors were Jewish and Israeli.</p>
+<p>The sentence in the graphic—"I believe survivors, but she started speaking Hebrew"—was drawn from the actual discourse. It captured the moment when the principle encountered its exception. The exception was not a factual dispute. There was plenty of evidence. The exception was the language the survivors spoke.</p>
+<p>Antizionism finds a way. It finds a way through the most carefully constructed progressive principles, right up to the moment those principles require you to believe Jews. At that moment, it finds a way around.</p>`
+  },
+  {
+    num: 'No. 22',
+    title: '"Clamor" — ICC prosecutor Khan on the evidence for genocide.',
+    body: `<p>Karim Khan is the prosecutor of the International Criminal Court. In May 2024, he announced he was seeking arrest warrants for Israeli Prime Minister Benjamin Netanyahu and Defense Minister Yoav Gallant, alongside Hamas leaders, for alleged war crimes and crimes against humanity.</p>
+<p>The announcement was received as confirmation of the genocide charge by people who had been making the charge since October 2023. Here, finally, was the international institution saying what they had been saying. The court had spoken.</p>
+<p>Except: Khan did not charge genocide. He charged war crimes and crimes against humanity—serious charges, but legally and conceptually distinct from genocide, which requires proof of specific intent to destroy a group. More telling was what Khan said in a BBC interview when asked directly about the genocide accusation that had been driving global protests for months.</p>
+<p>He called it a "clamor."</p>
+<p>Not evidence. Not a preliminary finding. Not a matter under investigation. Clamor—the word you use for noise that isn't substantiated by facts. The man who filed the warrant, who had more access to evidence about Israeli conduct in Gaza than any other international official, used the word "clamor" to describe the basis for the genocide charge.</p>
+<p>The graphic put that word in enormous type and named the source. One word, properly attributed, collapsed months of confident assertion. If the prosecutor pursuing Israel in court describes the genocide accusation as clamor, what exactly is the accusation based on? This graphic asked the question by quoting the answer.</p>`
+  },
+  {
+    num: 'No. 23',
+    title: '"I\'m not antisemitic." — Wearing the keffiyeh. Outside the shul. On Shabbat. In the dark. Yelling.',
+    body: `<p>The disclaimer came first. It always comes first. "I'm not antisemitic"—five words that are supposed to function as a credential, as inoculation, as the thing you say that exempts everything that follows from scrutiny.</p>
+<p>Then came the specifics.</p>
+<p>Wearing the keffiyeh: a political symbol, which is fine, people wear political symbols. Outside the shul: not the Israeli consulate, not the government building, not the IDF recruitment office—the synagogue, the specifically Jewish house of worship. On Shabbat: the specifically Jewish holy day, when Jewish people are specifically present at specifically Jewish institutions. In the dark: so the people inside cannot easily see you. Yelling.</p>
+<p>Each additional detail did additional work. By the time you reached "Yelling," the disclaimer at the top—"I'm not antisemitic"—had been dismantled line by line by the behavior it was supposed to excuse.</p>
+<p>This is what the graphic was built to do. The staccato structure—one detail per line, each line shorter than the last, building to a single word—was a rhetorical device. It made you read slowly. It made you sit with each fact before moving to the next. It made the gap between the disclaimer and the behavior visible.</p>
+<p>Nobody who is genuinely not antisemitic positions themselves outside a synagogue on Shabbat in the dark, yelling. The behavior describes a target. The target is Jewish people at prayer. Calling that antizionism requires a definition of antizionism that has long since stopped meaning anything. This graphic refused that definition by narrating the scene.</p>`
+  },
+  {
+    num: 'No. 24',
+    title: "Piker said he'd vote for Hamas over Israel. Their shield's normally can't talk.",
+    body: `<p>Hasan Piker is one of the largest political streamers on Twitch, with millions of followers. In the context of the Gaza conflict, he stated on stream that if forced to choose, he would vote for Hamas over Israel. He has also argued, repeatedly, that criticism of Hamas functions as cover for Israeli crimes—that focusing on Hamas deflects from Israeli conduct and therefore criticism of Hamas should be resisted or qualified.</p>
+<p>The graphic engaged with a specific piece of his logic: the human shield argument.</p>
+<p>Hamas's use of civilian infrastructure—hospitals, schools, mosques, residential buildings—as military cover is documented. It is documented by the UN, by human rights organizations, by journalists who were present, and by Hamas officials who have described it explicitly. The use of civilians as shields is a war crime. It also means that Israeli strikes on military targets embedded in civilian areas produce civilian casualties—which are then attributed entirely to Israeli intent.</p>
+<p>Piker's argument treats criticism of this practice as deflection. He is, rhetorically, shielding Hamas from accountability for its own conduct—the same function Hamas assigns to Gazan civilians physically.</p>
+<p>The difference the graphic named: Hamas's human shields cannot explain or defend themselves. They are involuntary. They did not choose the role. Piker chose his. He can speak. He can be questioned. He can be held to the logic of his own position.</p>
+<p>Antizionism finds a way—even to defending the use of human shields by declining to name it. This graphic named it.</p>`
+  }
+];
+
+function openEssay(i) {
+  const e = essays[i];
+  document.getElementById('essay-img').src = imgs[i];
+  document.getElementById('essay-num').textContent = e.num;
+  document.getElementById('essay-title').textContent = e.title;
+  document.getElementById('essay-body').innerHTML = e.body;
+  const ov = document.getElementById('essay-overlay');
+  ov.classList.add('on');
+  ov.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeEssay() {
+  document.getElementById('essay-overlay').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
 let cur = 0;
 const lb = document.getElementById('lb');
 const lbImg = document.getElementById('lb-img');
-
-function openLb(i) {
-  cur = i;
-  lbImg.src = imgs[i];
-  lb.classList.add('on');
-  document.body.style.overflow = 'hidden';
-}
-function closeLb() {
-  lb.classList.remove('on');
-  document.body.style.overflow = '';
-}
-function closeLbBg(e) { if (e.target === lb) closeLb(); }
-function navLb(d, e) {
-  e.stopPropagation();
-  cur = (cur + d + imgs.length) % imgs.length;
-  lbImg.src = imgs[cur];
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLb();
-  if (e.key === 'ArrowRight') navLb(1, { stopPropagation: () => {} });
-  if (e.key === 'ArrowLeft')  navLb(-1, { stopPropagation: () => {} });
+function openLb(i) { cur=i; lbImg.src=imgs[i]; lb.classList.add('on'); document.body.style.overflow='hidden'; }
+function closeLb() { lb.classList.remove('on'); document.body.style.overflow=''; }
+function closeLbBg(e) { if(e.target===lb) closeLb(); }
+function navLb(d,e) { e.stopPropagation(); cur=(cur+d+imgs.length)%imgs.length; lbImg.src=imgs[cur]; }
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeLb(); closeEssay(); }
+  if(e.key==='ArrowRight') navLb(1,{stopPropagation:()=>{}});
+  if(e.key==='ArrowLeft') navLb(-1,{stopPropagation:()=>{}});
 });
-
-// Scroll reveal
-const io = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if (en.isIntersecting) {
-      en.target.classList.add('visible');
-      io.unobserve(en.target);
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.entry').forEach(el => io.observe(el));
+const io = new IntersectionObserver(entries=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); } }); },{threshold:0.1});
+document.querySelectorAll('.entry').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
-
