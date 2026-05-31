@@ -14,7 +14,7 @@
     min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto;
     padding: clamp(2.5rem, 6vw, 5rem); border-bottom: 2px solid #111; background: #fff;
   }
-  .header-top { display: flex; justify-content: space-between; font-family: 'Courier Prime', monospace; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: #888; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; font-family: 'Courier Prime', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: #888; white-space: nowrap; gap: 1rem; }
   .header-top a { color: #c8821a; text-decoration: none; }
   .header-center { display: flex; flex-direction: column; justify-content: center; padding: 4rem 0; }
   .series-label { font-family: 'Courier Prime', monospace; font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: #c8821a; margin-bottom: 2rem; opacity: 0; animation: rise 0.7s ease forwards 0.2s; }
@@ -80,12 +80,8 @@
 <body>
 
 <header>
-  <div class="header-top">
-    <span>Kile Jones / The Inverted World</span>
-    <a href="https://kilejones.substack.com" target="_blank">kilejones.substack.com ↗</a>
-  </div>
+  <div class="header-top"><span>Kile Jones &nbsp;/&nbsp; The Inverted World</span><a href="https://kilejones.substack.com" target="_blank">kilejones.substack.com ↗</a></div>
   <div class="header-center">
-    <p class="series-label">The Series · 24 Entries · 2024–2025</p>
     <h1>That's it.<br><em>That's</em><br>the state-<br>ment.</h1>
     <p class="header-desc">A running series of single-sentence graphics. Saying that Israel should exist—and has the right to keep existing—has become a statement that requires making. These are the statements.</p>
   </div>
